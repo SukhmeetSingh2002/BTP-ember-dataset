@@ -30,7 +30,7 @@ def plot_confusion_matrix(y_true, y_pred,title, labels=[0,1],save = True):
   plt.figure(figsize=(10, 7))
   sns.heatmap(df_cm, annot=True, fmt='g')
   # increase font size
-  sns.set(font_scale=2)
+  sns.set_theme(font_scale=2)
   plt.title(title)
   plt.ylabel('True label')
   plt.xlabel('Predicted label')

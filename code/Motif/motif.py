@@ -53,7 +53,7 @@ def load_dataset_from_jsonl(file_path):
     return dataset
 
 
-DATA_FILE_PATH = '../../dataset/motif/motif_dataset.jsonl'
+DATA_FILE_PATH = '../../../dataset/motif/motif_dataset.jsonl'
 
 
 def extract_features(feature, feature_name, features):

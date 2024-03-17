@@ -168,3 +168,5 @@ cython_debug/
 
 Testing/
 my_tuner_dir/
+*.pkl
+*.txt
