@@ -2,11 +2,14 @@ import os
 import cv2
 # import numpy as np
 import pickle
-from ..data_loader import DataLoader
+import sys
+sys.path.append('..')
+
+from data_loader import DataLoader
 import concurrent.futures
 
 data_loader = DataLoader()
-data_dir = './data'
+data_dir = '../data'
 
 
 def load_data(directory, split):

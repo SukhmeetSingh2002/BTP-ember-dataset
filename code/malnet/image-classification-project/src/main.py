@@ -1,5 +1,5 @@
 from scipy import stats
-from .cnn_model import CNNModel
+from .model import Model
 import numpy as np
 from keras.utils import to_categorical
 
@@ -90,7 +90,7 @@ if args.train or args.test:
     # input("Press Enter to continue...")
 
     # Initialize the CNN model
-    model = CNNModel(input_shape=train_data[0].shape, num_classes=num_classes)
+    model = Model(input_shape=train_data[0].shape, num_classes=num_classes)
 
     # Train the model
     # model.train(train_data, train_labels,num_epochs=10)
@@ -121,10 +121,4 @@ if args.train or args.test:
 
     # Print the accuracy
     print(f"Accuracy: {accuracy}")
-    
-    
-
-
-if args.resnet:
-    
     

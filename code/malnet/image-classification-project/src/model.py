@@ -4,6 +4,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, Activation
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
+import keras
+from keras.applications import ResNet50
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
@@ -88,8 +90,15 @@ def create_model2(input_shape, num_classes):
 
     return model
     
+def create_model_rsnet(input_shape, num_classes):
+    #use resnet50
+    model = ResNet50(weights='imagenet', include_top=False, input_shape=input_shape,classes=num_classes)
+    model.trainable = True
+    x = keras.layers.GlobalAveragePooling2D()(model.output)
+    output = keras.layers.Dense(num_classes, activation='softmax')(x)
+    model = keras.models.Model(inputs=[model.input], outputs=[output])
 
-
+    return model
 
 
 def train_model(model, train_data, train_labels, num_epochs, val_data=None):
@@ -109,9 +118,9 @@ def predict(model, test_data):
     predictions = model.predict(test_data)
     return predictions
 
-class CNNModel:
+class Model:
     def __init__(self, input_shape, num_classes):
-        self.model = create_model(input_shape, num_classes)
+        self.model = create_model_rsnet(input_shape, num_classes)
         self.history = None
     
     def train(self, x_train, y_train, num_epochs, val_data=None):
