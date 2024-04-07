@@ -77,13 +77,13 @@ def load_data(directory, split):
     """
     images, labels = load_images_from_directory(directory)
     encoded_labels = LabelEncoder().fit_transform(labels)
-    preprocessed_images = preprocess_images(images)
+    # preprocessed_images = preprocess_images(images)
 
     if split:
-        X_train, X_test, y_train, y_test = train_test_split(preprocessed_images, encoded_labels, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(images, encoded_labels, test_size=0.2, random_state=42)
         return X_train, X_test, y_train, y_test
     else:
-        return preprocessed_images, encoded_labels
+        return images, encoded_labels
 
 class DataLoader:
     def __init__(self, directory=None):

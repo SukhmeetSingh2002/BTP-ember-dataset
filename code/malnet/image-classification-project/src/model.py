@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import keras
+import multiprocessing
 from keras.applications import ResNet50
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
@@ -93,7 +94,8 @@ def create_model2(input_shape, num_classes):
 def create_model_rsnet(input_shape, num_classes):
     #use resnet50
     model = ResNet50(weights='imagenet', include_top=False, input_shape=input_shape,classes=num_classes)
-    model.trainable = True
+    # model.trainable = True
+    model.trainable = False
     x = keras.layers.GlobalAveragePooling2D()(model.output)
     output = keras.layers.Dense(num_classes, activation='softmax')(x)
     model = keras.models.Model(inputs=[model.input], outputs=[output])
@@ -110,7 +112,8 @@ def train_model(model, train_data, train_labels, num_epochs, val_data=None):
     
     # history = model.fit(train_data, validation_data=val_data, epochs=num_epochs)
     # history = model.fit(train_data, train_labels, epochs=num_epochs)
-    history = model.fit(train_data, train_labels, epochs=num_epochs, validation_data=val_data, batch_size=1024)
+    history = model.fit(train_data, train_labels, epochs=num_epochs, validation_data=val_data, batch_size=8192,workers=multiprocessing.cpu_count(), verbose=1)
+    # history = model.fit(train_data, train_labels, epochs=num_epochs, validation_data=val_data, batch_size=8192, verbose=1)
     
     return history
 

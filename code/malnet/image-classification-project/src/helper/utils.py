@@ -1,9 +1,9 @@
 import os
-import cv2
+# import cv2
 # import numpy as np
 import pickle
 import sys
-sys.path.append('..')
+# sys.path.append('..')
 
 from data_loader import DataLoader
 import concurrent.futures
@@ -30,30 +30,19 @@ def pickle_store_dataset(train_dir,val_dir,test_dir):
         test_data, test_labels = test_future.result()
 
 
-    # Save the train data
-    with open(f'{data_dir}/train_data.pkl', 'wb') as f:
-        pickle.dump(train_data, f)
+    # Define a helper function to save data
+    def save_pickle(file_name, data):
+        with open(f'{data_dir}/{file_name}', 'wb') as f:
+            pickle.dump(data, f)
 
-    # Save the train labels
-    with open(f'{data_dir}/train_labels.pkl', 'wb') as f:
-        pickle.dump(train_labels, f)
-
-    # Save the test data
-    with open(f'{data_dir}/test_data.pkl', 'wb') as f:
-        pickle.dump(test_data, f)
-
-    # Save the test labels
-    with open(f'{data_dir}/test_labels.pkl', 'wb') as f:
-        pickle.dump(test_labels, f)
-
-    # Save the val data
-    with open(f'{data_dir}/val_data.pkl', 'wb') as f:
-        pickle.dump(val_data, f)
-        
-    # Save the val labels
-    with open(f'{data_dir}/val_labels.pkl', 'wb') as f:
-        pickle.dump(val_labels, f)
-    
+    # Use concurrent.futures to save the data in parallel
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.submit(save_pickle, 'train_data.pkl', train_data)
+        executor.submit(save_pickle, 'train_labels.pkl', train_labels)
+        executor.submit(save_pickle, 'test_data.pkl', test_data)
+        executor.submit(save_pickle, 'test_labels.pkl', test_labels)
+        executor.submit(save_pickle, 'val_data.pkl', val_data)
+        executor.submit(save_pickle, 'val_labels.pkl', val_labels)
 
 # Other utility functions can be added here
 

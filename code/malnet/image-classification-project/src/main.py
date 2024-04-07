@@ -1,13 +1,13 @@
 from scipy import stats
-from .model import Model
+from model import Model
 import numpy as np
 from keras.utils import to_categorical
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import argparse
 import pickle
-from .helper.stats import stats_dataset
-from .helper.utils import pickle_store_dataset,load_from_pickle
+from helper.stats import stats_dataset
+from helper.utils import pickle_store_dataset,load_from_pickle
 import time 
 # Create the parser
 parser = argparse.ArgumentParser(description='Train or load a model.')
@@ -18,9 +18,9 @@ parser.add_argument('--stats', action='store_true', help='Print the stats of the
 parser.add_argument('--resnet', action='store_true', help='Use resnet model')
 args = parser.parse_args()
 
-train_dir = '../../../../dataset/malnet/malnet-images-tiny/train'
-test_dir = '../../../../dataset/malnet/malnet-images-tiny/test'
-val_dir =  '../../../../dataset/malnet/malnet-images-tiny/val'
+train_dir = '../../../../../dataset/malnet/malnet-images-tiny/train'
+test_dir = '../../../../../dataset/malnet/malnet-images-tiny/test'
+val_dir =  '../../../../../dataset/malnet/malnet-images-tiny/val'
 model_dir = './models'
 results_dir = './results'
 
@@ -30,7 +30,9 @@ if not any([args.train, args.test, args.pickle,args.stats]):
     parser.error('No action requested,')
     parser.print_help()
 
-
+from tensorflow import config as tf_config
+print("GPUs Available: ", tf_config.list_physical_devices('GPU'))
+print("Num GPUs Available: ", len(tf_config.list_physical_devices('GPU')))
 
 
 if args.stats:
